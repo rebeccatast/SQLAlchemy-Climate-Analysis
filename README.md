@@ -24,7 +24,7 @@ After completing the initial analysis, I designed a Flask API based on the queri
     - Returns a JSON list of stations from the data. 
   - /api/v1.0/tobs
     - Creates a query of the dates and temperature observations of the most active station for the last year of data, and returns a JSON list of the TOBS for one year. 
-  - /api/v1.0/<start> and /api/v1.0/<start>/<end>
+  - /api/v1.0/start and /api/v1.0/start/end
     - Returns a JSON list of the minimum temperature, average temperature, and the max temperature given only a start date and given a start and end date. 
   
   
