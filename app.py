@@ -60,6 +60,20 @@ def precipitation ():
     session.close()
 
     return jsonify(prcp_date_list)
+
+@app.route("/api/v1.0/stations")
+def stations():
+    #Create session link from Python to DB
+    session = Session(engine)
+
+    #Return list of all stations#
+    #Query all stations
+    results = session.query(Station.station).\
+        order_by(Station.station).all()
+    
+    session.close()
+
+    #Convert list of tuples into normal list
     
 
 
