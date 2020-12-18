@@ -59,6 +59,11 @@ def precipitation ():
 
     session.close()
 
+    return jsonify(prcp_date_list)
+    
+
+
+
 
     #
 # 4. Define what to do when a user hits the /about route
