@@ -1,15 +1,16 @@
-# 1. import Flask
-from flask import Flask, jsonify
+# 1. import dependencies
+import numpy as np
+import datetime as dt
+
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, func
-import datetime as dt
-import numpy as np
-import pandas as pd
+from sqlalchemy import create_engine, func, and_
+
+from flask import Flask, jsonify
 
 #Database Setup
-engine = create_engine ("sqlite:///hawaii.sqlite")
+engine = create_engine ("sqlite:///Resources/hawaii.sqlite")
 
 #Reflect  an existing database into a new model
 Base = automap_base()
@@ -38,7 +39,28 @@ def welcome():
         f"/api/v1.0/[start_date format:yyyy-mm-dd]<br/>"
         f"/api/v1.0/[start_date format:yyyy-mm-dd]/[end_date format:yyyy-mm-dd]<br/>"
     )
+
+@app.route("/api/v1.0/precipitation") 
+def precipitation ():
+    #Create session link from Python to DB
+    session = Session(engine)
+
+    #Query using date as key and prcp as value
+    results = session.query(Measurement.date, Measurement.prcp).\
+              order_by(Measurement.date).all()
     
+    #Convert to list of dictionaries to jsonify
+    prcp_date_list = []
+
+    for date, prcp in results:
+        new_dict = {}
+        new_dict[date] = prcp
+        prcp_date_list.append(new_dict)
+
+    session.close()
+
+
+    #
 # 4. Define what to do when a user hits the /about route
 @app.route("/about")
 def about():
@@ -48,3 +70,4 @@ def about():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
